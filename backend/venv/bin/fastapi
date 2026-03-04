@@ -1,0 +1,8 @@
+#!/bin/sh
+'''exec' "/Users/joanpau/Documents/0_2_PhD/Repo_PhD/FullStack-React-FastAPI-Python - Mitigation Pathways/backend/venv/bin/python3.12" "$0" "$@"
+' '''
+import sys
+from fastapi.cli import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())
