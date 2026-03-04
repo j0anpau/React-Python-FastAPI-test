@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import VehicleUseModule from "./VehicleUseModule";
 
 const API = "http://localhost:8000";
 
@@ -36,6 +37,7 @@ const GLOBAL_CSS = `
   .mod-tab:hover { color: #c9d1d9; }
   .mod-tab.active-energy { color: #f5c842; border-bottom-color: #f5c842; }
   .mod-tab.active-lca    { color: #4ade80; border-bottom-color: #4ade80; }
+  .mod-tab.active-vehicle{ color: #38bdf8; border-bottom-color: #38bdf8; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
   .pulse { animation: pulse 1.5s ease-in-out infinite; }
 `;
@@ -294,7 +296,7 @@ function EnergyModule({ onGridIntensityChange }) {
     fetch(`${API}/api/energy/scenarios/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ year: gridYear, mix, transmission_loss: transmissionLoss, grid_ef: adjustedIntensity }),
+      body: JSON.stringify({ year: gridYear, mix, transmission_loss: transmissionLoss }),
     })
       .then(r => r.json())
       .then(() => {
@@ -974,6 +976,9 @@ export default function MobilityCarbonModel() {
         <button className={`mod-tab${activeModule === "lca" ? " active-lca" : ""}`} onClick={() => setActiveModule("lca")}>
           ♻ LCA Module
         </button>
+        <button className={`mod-tab${activeModule === "vehicle" ? " active-vehicle" : ""}`} onClick={() => setActiveModule("vehicle")}>
+          🚗 Vehicle Use Module
+        </button>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0 20px", borderLeft: "1px solid #21262d", marginLeft: "4px" }}>
           <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4ade80", boxShadow: "0 0 5px #4ade80" }} />
           <span style={{ fontSize: "9px", letterSpacing: ".1em", color: "#4ade80" }}>ENERGY → LCA LIVE</span>
@@ -982,6 +987,7 @@ export default function MobilityCarbonModel() {
 
       {activeModule === "energy" && <EnergyModule onGridIntensityChange={setGridIntensity} />}
       {activeModule === "lca" && <LCAModule gridIntensityFromEnergy={gridIntensityShared} />}
+      {activeModule === "vehicle" && <VehicleUseModule />}
     </div>
   );
 }

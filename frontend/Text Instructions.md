@@ -1,9 +1,17 @@
 # React + TypeScript + Vite
 
+prerequisites: 
+
+cd frontend && npm install      # instala todo lo de package.json
+cd backend  && pip install -r requirements.txt  # instala todo lo del venv
+
+
+
 In 2 terminals:
 
 # 1. terminal  - for backend:
-
+> cd backend
+>source venv/bin/activate
 
 > uvicorn main:app --reload --port 8000
 
